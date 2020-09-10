@@ -219,10 +219,7 @@ class Launcher(object):
 
 def get_ws_endpoint(url) -> str:
     url = url + '/json/version'
-    timeout = time.time() + 30
     while (True):
-        if time.time() > timeout:
-            raise BrowserError('Browser closed unexpectedly:\n')
         try:
             with urlopen(url) as f:
                 data = json.loads(f.read().decode())
