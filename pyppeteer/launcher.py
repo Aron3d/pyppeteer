@@ -6,6 +6,7 @@
 import asyncio
 import atexit
 from copy import copy
+from http.client import BadStatusLine
 import json
 from urllib.request import urlopen
 from urllib.error import URLError
@@ -225,6 +226,9 @@ def get_ws_endpoint(url) -> str:
                 data = json.loads(f.read().decode())
             break
         except URLError as e:
+            continue
+        except BadStatusLine as e:
+            logger.info('Error: %s. Retrying...', e)
             continue
         time.sleep(0.1)
 
